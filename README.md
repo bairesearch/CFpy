@@ -1,6 +1,6 @@
-# CFpt
+# cfpy
 
-CFpt is a small utility inspired by the Baxter AI Code Folder tooling. It filters a
+CFpy is a small utility inspired by the Baxter AI Code Folder tooling. It filters a
 Python codebase by removing branches that are disabled via boolean switches defined
 in a ``globalDefs.py`` module. The tool executes the globals module so that dynamic
 assignments are respected and then rewrites every ``if`` statement whose condition
@@ -14,10 +14,7 @@ can be decided statically from those switches.
 ## Usage
 
 ```bash
-python -m cfpt.cli \
-    path/to/source \
-    path/to/source/globalDefs.py \
-    path/to/output
+python CFpy/cli.py path/to/source path/to/source/globalDefs.py path/to/output
 ```
 
 The command prints the resolved boolean switches, rewrites the project into the
@@ -29,9 +26,9 @@ The destination directory must not be located inside the source tree.
 
 Set ``--quiet`` to suppress informational output.
 
-## Library API
+## Utility API
 
-The ``cfpt.filtering`` module exposes utility functions for programmatic use:
+``filtering.py`` exposes utility functions for programmatic use:
 
 * ``load_boolean_globals(path)`` – execute the globals module and return a
   ``dict[str, bool]`` containing all boolean switches.

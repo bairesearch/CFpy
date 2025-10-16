@@ -12,6 +12,8 @@ from typing import Dict, Iterable, Iterator, Optional
 import libcst as cst
 from libcst import FlattenSentinel, RemoveFromParent
 
+ParenthesizedExpression = getattr(cst, "ParenthesizedExpression", None)
+
 
 BooleanMap = Dict[str, bool]
 
@@ -112,12 +114,11 @@ class _ConditionEvaluator:
             comp = node.comparisons[0]
             right_val: Optional[bool]
             if isinstance(comp.comparator, cst.Name):
-                if comp.comparator.value in {"True", "False"}:
-                    right_val = comp.comparator.value == "True"
+                name = comp.comparator.value
+                if name in {"True", "False"}:
+                    right_val = name == "True"
                 else:
-                    right_val = self.bool_map.get(comp.comparator.value)
-            elif isinstance(comp.comparator, cst.Boolean):
-                right_val = comp.comparator.value
+                    right_val = self.bool_map.get(name)
             else:
                 right_val = None
             if left_val is None or right_val is None:
@@ -126,10 +127,12 @@ class _ConditionEvaluator:
                 return left_val == right_val
             if isinstance(comp.operator, (cst.NotEqual, cst.IsNot)):
                 return left_val != right_val
-        if isinstance(node, cst.ParenthesizedExpression):
+        if ParenthesizedExpression is not None and isinstance(
+            node, ParenthesizedExpression
+        ):
             return self.evaluate(node.expression)
-        if isinstance(node, cst.Boolean):
-            return node.value
+        if isinstance(node, cst.Name) and node.value in {"True", "False"}:
+            return node.value == "True"
         return None
 
 

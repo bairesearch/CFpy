@@ -6,7 +6,15 @@ import argparse
 import json
 from pathlib import Path
 
-from .filtering import load_boolean_globals, walk_and_filter
+try:  # Allow running as `python cli.py` without package installation
+    from .filtering import load_boolean_globals, walk_and_filter
+except ImportError:  # pragma: no cover - execution convenience
+    import sys
+
+    CURRENT_DIR = Path(__file__).resolve().parent
+    if str(CURRENT_DIR) not in sys.path:
+        sys.path.insert(0, str(CURRENT_DIR))
+    from filtering import load_boolean_globals, walk_and_filter
 
 
 def _build_parser() -> argparse.ArgumentParser:

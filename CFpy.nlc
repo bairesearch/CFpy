@@ -1,0 +1,21 @@
+//CFpy Specification (prompts):
+
+---
+v1a (o3 prompt);
+
+Hi I need to ask a LLM a question about my code base, however in order to simplify my codebase to make it easier to interpret I would like to remove all the code that is currently disabled according to the truth value of the boolean global vars in the globalDefs.py file (note that their truth value may be dynamically defined in globalDefs.py within if statements). Please provide me a tool to first filter my codebase.
+
+---
+v2a (Codex IDE GPT5Codex prompt);
+
+Inspired by Baxter AI Code Folder for C++ (https://baxterai.com/?code_folder - https://github.com/bairesearch/CF/tree/master/CF), I want you to create CFpy.
+
+Specification:
+
+In order to simplify my python codebase I would like to remove all the code that is currently disabled according to the truth value of the boolean global vars in the globalDefs.py file (note that their truth value may be dynamically defined in globalDefs.py within if statements). Please provide me a tool to filter my codebase.
+
+Example python implementation (there will be bugs in this code, so you should probably start from scratch);
+
+[dev/removeInactiveGlobalDefCodeCST.py]
+
+
